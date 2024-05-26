@@ -16,6 +16,14 @@ endif
 all:
 	make -C /lib/modules/$(KERNELRELEASE)/build M=$(PWD) modules
 
+# dtbo rule is no longer available
+ifeq ($(firstword $(subst ., ,$(KERNELRELEASE))),6)
+all: tagtagtag-ears.dtbo
+
+tagtagtag-ears.dtbo: tagtagtag-ears-overlay.dts
+	dtc -I dts -O dtb -o $@ $<
+endif
+
 clean:
 	make -C /lib/modules/$(KERNELRELEASE)/build M=$(PWD) clean
 
